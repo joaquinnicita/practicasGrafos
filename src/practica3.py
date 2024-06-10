@@ -80,7 +80,22 @@ def encuentra_recorrido(grafo_lista, nodo_ini, nodo_fin):
     Ejemplo retorno: 
         ['b','c','d','e','c','f']
     '''
-    pass
+
+    grafo = {nodo: [] for nodo in grafo_lista}
+    for origen, destino in aristas:
+        grafo[origen].append(destino)
+    
+    # Función auxiliar para realizar la búsqueda en profundidad (DFS)
+    def dfs(nodo_actual, nodo_fin, camino, visitados):
+        if nodo_actual == nodo_fin:  # Caso base: llegamos al nodo final
+            return camino
+        visitados.add(nodo_actual)
+        for vecino in grafo[nodo_actual]:
+            if vecino not in visitados:  # Evitar ciclos revisando si ya visitamos el nodo
+                resultado_camino = dfs(vecino, nodo_fin, camino + [vecino], visitados)
+                if resultado_camino:  # Si encontramos un camino, retornarlo
+                    return resultado_camino
+        return []  # Si no hay camino, retornar lista vacía
 
 def encuentra_circuito(grafo_lista, nodo):
     '''
